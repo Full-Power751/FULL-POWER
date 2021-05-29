@@ -1,10 +1,15 @@
 import discord
-from discord import colour
-from discord import mentions
 from discord.ext import commands
-from discord.ext.commands import bot
-from discord.role import RoleTags
+import random
+import asyncio
+import time
+from datetime import datetime
+import sys
+import os
+import traceback
+from discord.ext.commands import bot, cog
 
+ 
 client = commands.Bot (command_prefix = 'f!')
 
 
@@ -56,18 +61,6 @@ async def on_ready():
 async def clear(ctx, ammount=5):
     await ctx.channel.purge(limit=ammount)
 
-@client.command()
-async def avatar(ctx, *, member: discord.Member=None):
-    if not member:
-        member = ctx.message.author
-    userAvatar = member.avatar_url
-
-    embed = discord.Embed(colour=member.color, timestamp=ctx.message.created_at)
-    embed.set_author(name=f"Avatar of {member}")
-    embed.set_image(url=member.avatar_url)
-    embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-
-    await ctx.send(embed=embed)    
 
 @commands.command()
 async def guild_icon(self, ctx):
@@ -98,7 +91,15 @@ async def vcdeletechannel(ctx, channel: discord.VoiceChannel):
         await ctx.send(embed=mbed)
         await channel.delete()
 
-
+@client.command()
+async def avatar(self,ctx, *, user: discord.Member = None):
+     if user is None:
+        user = ctx.message.author
+        embed = discord.Embed()
+        embed.add_field(name=user.name,value=f'[Downloa]({user.avatar_url})')
+        embed.set_image(url=user.avatar_url)
+        embed.set_footer(text=f'Requested by {ctx.author.name}', icon_url= ctx.author.avatar_url)
+        await ctx.send(embed=embed)   
 
 @client.command()
 async def createchannel(ctx, channelName):
@@ -111,6 +112,23 @@ async def createchannel(ctx, channelName):
     if ctx.author.guild_permissions.manage_channels:
         await guild.create_text_channel(name='{}'.format(channelName))
         await ctx.send(embed=mbed)
+
+
+
+@client.command()
+async def load(ctx, extension):
+    client.load_extension(f'cogs.{extension}')
+
+
+@client.command()
+async def unload(ctx, extension):
+    client.unload_extension(f'cogs.{extension}')
+
+
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        client.load_extension(f'cogs.{filename[:-3]}')
+
 
 
 
