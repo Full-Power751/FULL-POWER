@@ -16,17 +16,8 @@ class Fun(commands.Cog):
         embed.set_footer(text=f'Requested by {ctx.author.name}', icon_url= ctx.author.avatar_url)
         await ctx.send(embed=embed)   
 
-    @commands.command()
-    async def guild_icon(self,ctx):
-        embed = discord.Embed()
-        embed.set_image(url = ctx.guild.icon_url)
-        await ctx.send(embed=embed)
-    
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print('Cogs are working')
 
 
 def setup(bot):
-    bot.add_cog(Fun(bot))        
+    bot.add_cog(Fun(bot))
+    print("Cog is working")        
