@@ -91,15 +91,6 @@ async def vcdeletechannel(ctx, channel: discord.VoiceChannel):
         await ctx.send(embed=mbed)
         await channel.delete()
 
-@client.command()
-async def avatar(self,ctx, *, user: discord.Member = None):
-     if user is None:
-        user = ctx.message.author
-        embed = discord.Embed()
-        embed.add_field(name=user.name,value=f'[Downloa]({user.avatar_url})')
-        embed.set_image(url=user.avatar_url)
-        embed.set_footer(text=f'Requested by {ctx.author.name}', icon_url= ctx.author.avatar_url)
-        await ctx.send(embed=embed)   
 
 @client.command()
 async def createchannel(ctx, channelName):
@@ -115,19 +106,7 @@ async def createchannel(ctx, channelName):
 
 
 
-@client.command()
-async def load(ctx, extension):
-    client.load_extension(f'cogs.{extension}')
 
-
-@client.command()
-async def unload(ctx, extension):
-    client.unload_extension(f'cogs.{extension}')
-
-
-for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
-        client.load_extension(f'cogs.{filename[:-3]}')
 
 
 
