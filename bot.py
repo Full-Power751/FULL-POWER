@@ -128,6 +128,11 @@ async def userinfo(ctx, member: discord.Member = None):
     await ctx.send(embed=embed)
 
 
+@client.command()
+async def role(ctx, role: discord.Role, user: discord.Member):
+    if ctx.author.guild_permissions.administrator:
+        await user.add_roles(role)
+        await ctx.send(f"Successfully given {role.mention} to {user.mention}.")
 
 
 
