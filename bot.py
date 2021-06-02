@@ -139,6 +139,16 @@ async def role(ctx, role: discord.Role, user: discord.Member):
         await user.add_roles(role)
         await ctx.send(f"Successfully given {role.mention} to {user.mention}.")
 
-
+extensions=[
+            'cogs.avatar'
+]           
+if __name__ == "__main__":
+    for extension in extensions:
+        try:
+            client.load_extension(extension)
+        except Exception as e:  
+            print(f'Error loading {extension}', file=sys.stderr)
+            traceback.print_exc('Cannot load')  
+            
 
 client.run('ODM3NjY3MTU1OTc3ODMwNDAw.YIv4VQ.D7comK0LwuyGJfvatMqhyv0zaQE')
