@@ -58,8 +58,13 @@ async def on_ready():
     print('Full Power is now online')
 
 @client.command()
-async def clear(ctx, ammount=5):
-    await ctx.channel.purge(limit=ammount)
+async def clear(ctx, ammount: int):
+    await ctx.channel.purge(limit=ammount+1)
+    
+@clear.error
+async def clear_error(ctx , error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Please specify the number of messages to clear.')
 
 
 @client.command()
