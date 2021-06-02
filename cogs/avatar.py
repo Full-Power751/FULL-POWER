@@ -11,7 +11,7 @@ class Fun(commands.Cog):
         if user is None:
             user = ctx.message.author
         embed = discord.Embed()
-        embed.add_field(name=user.name,value=f'[Downloa]({user.avatar_url})')
+        embed.add_field(name=user.name,value=f'[Download]({user.avatar_url})')
         embed.set_image(url=user.avatar_url)
         embed.set_footer(text=f'Requested by {ctx.author.name}', icon_url= ctx.author.avatar_url)
         await ctx.send(embed=embed)   
