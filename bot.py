@@ -140,8 +140,7 @@ async def role(ctx, role: discord.Role, user: discord.Member):
         await ctx.send(f"Successfully given {role.mention} to {user.mention}.")
 
 extensions=['cogs.dm',
-            'cogs.avatar',
-            'cogs.music',
+            'cogs.avatar'
 ]           
 if __name__ == "__main__":
     for extension in extensions:
