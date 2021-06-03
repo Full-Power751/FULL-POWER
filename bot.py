@@ -141,6 +141,7 @@ async def role(ctx, role: discord.Role, user: discord.Member):
 
 extensions=['cogs.dm',
             'cogs.avatar',
+            'cogs.music',
 ]           
 if __name__ == "__main__":
     for extension in extensions:
