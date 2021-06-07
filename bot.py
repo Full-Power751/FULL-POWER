@@ -60,18 +60,13 @@ async def on_ready():
 @client.command()
 async def clear(ctx, ammount: int):
     await ctx.channel.purge(limit=ammount+1)
+    await ctx.send(f"I have deleted {ammount} messages")
     
 @clear.error
 async def clear_error(ctx , error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('Please specify the number of messages to clear.')
 
-
-@client.command()
-async def guild_icon(self, ctx):
-        mbed = discord.Embed()
-        mbed.set_image(url = ctx.guild.icon_url)
-        await ctx.send(embed=mbed)
 
 @client.command()
 async def txdeletechannel(ctx, channel: discord.TextChannel):
