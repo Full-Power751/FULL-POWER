@@ -144,7 +144,7 @@ async def mute(ctx, member: discord.Member, *, reason=None):
         mutedRole = await guild.create_role(name="Muted")
 
         for channel in guild.channels:
-            await channel.set_permissions(mutedRole, view_channel=True, speak=False, send_messages=False, read_message_history=True, read_messages=False)
+            await channel.set_permissions(mutedRole, view_channels=True, view_channel=False, speak=False, send_messages=False, read_message_history=True, read_messages=False)
 
     await member.add_roles(mutedRole, reason=reason)
     await ctx.send(f"Muted {member.mention} for reason {reason}")
