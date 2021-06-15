@@ -13,25 +13,6 @@ from discord.ext.commands import bot
 client = commands.Bot (command_prefix = 'f!')
 
 
-@client.command()
-async def hello(ctx):
-    await ctx.send('Hi')
-
-@client.command()
-async def verison(ctx):
-    await ctx.send('1.0.0')
-
-@client.command()
-async def BG(ctx):
-    await ctx.send('Bhai Gamer')
-
-@client.command()
-async def Legend(ctx):
-    await ctx.send('Legend is always op')
-
-@client.command()
-async def op(ctx):
-    await ctx.send('Over Power')
 
 @client.command()
 @commands.has_permissions(kick_members=True)
@@ -42,7 +23,7 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 @kick.error
 async def kick_error(ctx , error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please mention a user to kick.')
+        await ctx.send('Please mention a user to Kick.')
 
 
 @client.command()
@@ -50,7 +31,11 @@ async def kick_error(ctx , error):
 async def ban(ctx, member: discord.Member, *, reason=None):             
     await member.ban(reason=reason)
     await ctx.send(f'{member.name} was successfully banned. {reason}')
-    
+
+@ban.error
+async def ban_error(ctx , error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Please mention a user to Ban.')  
 
 @client.event
 async def on_ready():
@@ -103,6 +88,7 @@ async def createchannel(ctx, channelName):
     if ctx.author.guild_permissions.manage_channels:
         await guild.create_text_channel(name='{}'.format(channelName))
         await ctx.send(embed=mbed)
+        
 @client.command()
 async def userinfo(ctx, member: discord.Member = None):
     member = ctx.author if not member else member
@@ -144,7 +130,7 @@ async def mute(ctx, member: discord.Member, *, reason=None):
         mutedRole = await guild.create_role(name="Muted")
 
         for channel in guild.channels:
-            await channel.set_permissions(mutedRole, view_channels=True, view_channel=False, speak=False, send_messages=False, read_message_history=True, read_messages=False)
+            await channel.set_permissions(mutedRole, speak=False, send_messages=False, read_message_history=True, read_messages=False)
 
     await member.add_roles(mutedRole, reason=reason)
     await ctx.send(f"Muted {member.mention} for reason {reason}")
