@@ -18,12 +18,23 @@ client = commands.Bot (command_prefix = 'f!')
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):             
     await member.kick(reason=reason)
-    await ctx.send(f'{member.name} was successfully kick. {reason}')
+    embed = discord.Embed(
+
+        description = f"{member} was successfully Kicked.",
+    )    
+    await ctx.send(embed=embed)
+    
 
 @kick.error
 async def kick_error(ctx , error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('Please mention a user to Kick.')
+
+@kick.error
+async def kick_error(ctx , error):
+    if isinstance(error, commands.MissingPermissions):
+        embed = discord.Embed(description=f"You do not have Permission to kick members. ")
+        await ctx.send(embed=embed)
 
 
 @client.command()
@@ -39,18 +50,28 @@ async def ban_error(ctx , error):
 
 @client.event
 async def on_ready():
-    await client.change_presence(status=discord.Status.online, activity=discord.Game('f!help'))
+    await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game('Updating version from 1.0.1 to 1.0.2'))
     print('Full Power is now online')
 
 @client.command()
+@commands.has_permissions(manage_messages=True)
 async def clear(ctx, ammount: int):
     await ctx.channel.purge(limit=ammount+1)
-    await ctx.send(f"I have deleted {ammount} messages")
+    embed = discord.Embed(description=f"I have cleared {ammount} messages.")
+    await ctx.send(embed=embed)
+    
     
 @clear.error
 async def clear_error(ctx , error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please specify the number of messages to clear.')
+        embed = discord.Embed(description="Please specify the number of messages to clear.")
+        await ctx.send(embed=embed)
+
+@clear.error
+async def clear_error(ctx , error):
+    if isinstance(error, commands.MissingPermissions):
+        embed = discord.Embed(description="You are missing a following permission Manage Messages.")
+        await ctx.send(embed=embed)
 
 
 @client.command()
@@ -115,6 +136,7 @@ async def userinfo(ctx, member: discord.Member = None):
 
 
 @client.command()
+@commands.has_permissions(administrator=True)
 async def role(ctx, role: discord.Role, user: discord.Member):
     if ctx.author.guild_permissions.administrator:
         await user.add_roles(role)
