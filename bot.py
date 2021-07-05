@@ -13,18 +13,16 @@ from discord.ext.commands import bot
 client = commands.Bot (command_prefix = 'f!')
 
 
-
 @client.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):             
     await member.kick(reason=reason)
     embed = discord.Embed(
 
-        description = f"{member} was successfully Kicked.",
+        description = f"{member} was successfully Kicked.",        
     )    
     await ctx.send(embed=embed)
     
-
 @kick.error
 async def kick_error(ctx , error):
     if isinstance(error, commands.MissingRequiredArgument):
@@ -36,15 +34,19 @@ async def kick_error(ctx , error):
         embed = discord.Embed(description=f"You do not have Permission to kick members. ")
         await ctx.send(embed=embed)
 
-
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):             
     await member.ban(reason=reason)
-    await ctx.send(f'{member.name} was successfully banned. {reason}')
+    embed = discord.Embed(
 
-@ban.error
-async def ban_error(ctx , error):
+        description = f"{member} was successfully Kicked.",
+        
+    )    
+    await ctx.send(embed=embed)
+    
+@kick.error
+async def kick_error(ctx , error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('Please mention a user to Ban.')  
 
@@ -59,8 +61,7 @@ async def clear(ctx, ammount: int):
     await ctx.channel.purge(limit=ammount+1)
     embed = discord.Embed(description=f"I have cleared {ammount} messages.")
     await ctx.send(embed=embed)
-    
-    
+     
 @clear.error
 async def clear_error(ctx , error):
     if isinstance(error, commands.MissingRequiredArgument):
@@ -73,7 +74,6 @@ async def clear_error(ctx , error):
         embed = discord.Embed(description="You are missing a following permission Manage Messages.")
         await ctx.send(embed=embed)
 
-
 @client.command()
 async def txdeletechannel(ctx, channel: discord.TextChannel):
     mbed = discord.Embed(
@@ -85,7 +85,6 @@ async def txdeletechannel(ctx, channel: discord.TextChannel):
         await ctx.send(embed=mbed)
         await channel.delete()
 
-
 @client.command()
 async def vcdeletechannel(ctx, channel: discord.VoiceChannel):
     mbed = discord.Embed(
@@ -96,7 +95,6 @@ async def vcdeletechannel(ctx, channel: discord.VoiceChannel):
     if ctx.author.guild_permissions.manage_channels:
         await ctx.send(embed=mbed)
         await channel.delete()
-
 
 @client.command()
 async def createchannel(ctx, channelName):
@@ -134,7 +132,6 @@ async def userinfo(ctx, member: discord.Member = None):
 
     await ctx.send(embed=embed)
 
-
 @client.command()
 @commands.has_permissions(administrator=True)
 async def role(ctx, role: discord.Role, user: discord.Member):
@@ -152,7 +149,7 @@ async def mute(ctx, member: discord.Member, *, reason=None):
         mutedRole = await guild.create_role(name="Muted")
 
         for channel in guild.channels:
-            await channel.set_permissions(mutedRole, speak=False, send_messages=False, read_message_history=True, read_messages=False)
+            await channel.set_permissions(mutedRole, speak=False, view_channel=None, send_messages=False, connect=False, read_message_history=True, read_messages=False)
 
     await member.add_roles(mutedRole, reason=reason)
     await ctx.send(f"Muted {member.mention} for reason {reason}")
