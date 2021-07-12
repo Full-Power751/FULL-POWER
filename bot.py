@@ -52,7 +52,7 @@ async def kick_error(ctx , error):
 
 @client.event
 async def on_ready():
-    await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game('Updating version from 1.0.1 to 1.0.2'))
+    await client.change_presence(status=discord.Status.online, activity=discord.Game('Updated Successfully to Version 1.5.0'))
     print('Full Power is now online')
 
 @client.command()
@@ -163,6 +163,56 @@ async def unmute(ctx, member: discord.Member):
     await member.remove_roles(mutedRole)
     await ctx.send(f"Unmuted {member.mention}")
     await member.send(f"You were unmuted in the server {ctx.guild.name}")
+
+
+@client.command()
+@commands.has_permissions(kick_members=True)
+async def kick(ctx, member: discord.Member = None, *, reason = None):
+    if reason == None:
+        await member.kick(reason=f'Kicked By {ctx.author} With No Reason Provided...')
+        embed = discord.Embed(title='Full Power', color=0x19dfb8, description=f'**`Successfully Kicked {member} With No Reason Provided.`**')
+        embed.set_thumbnail(url='https://cdn.dribbble.com/users/344048/screenshots/4134234/bot_icon_dribbble.jpg')
+        await ctx.send(embed=embed)
+    if member == None:
+        embed = discord.Embed(title='Full Power', color=0x19dfb8, description=f'**`Please Provide A Member To Kick...`**')
+        embed.set_thumbnail(url='https://cdn.dribbble.com/users/344048/screenshots/4134234/bot_icon_dribbble.jpg')
+        await ctx.send(embed=embed)
+    else:
+        await member.kick(reason=reason)
+        embed = discord.Embed(title='Full Power', color=0x19dfb8, description=f'**`Successfully Kicked {member} For {reason}.`**')
+        embed.set_thumbnail(url='https://cdn.dribbble.com/users/344048/screenshots/4134234/bot_icon_dribbble.jpg')
+        await ctx.send(embed=embed)
+
+@client.command()
+@commands.has_permissions(ban_members=True)
+async def ban(ctx, member: discord.Member = None, *, reason = None):
+    if reason == None:
+        await member.ban(reason=f'Banned By {ctx.author} With No Reason Provided...')
+        embed = discord.Embed(title='Full Power', color=0x19dfb8, description=f'**`Successfully Banned {member} With No Reason Provided.`**')
+        embed.set_thumbnail(url='https://cdn.dribbble.com/users/344048/screenshots/4134234/bot_icon_dribbble.jpg')
+        await ctx.send(embed=embed)
+    if member == None:
+        embed = discord.Embed(title='Full Power', color=0x19dfb8, description=f'**`Please Provide A Member To Ban...`**')
+        embed.set_thumbnail(url='https://cdn.dribbble.com/users/344048/screenshots/4134234/bot_icon_dribbble.jpg')
+        await ctx.send(embed=embed)
+    else:
+        await member.ban(reason=reason)
+        embed = discord.Embed(title='Full Power', color=0x19dfb8, description=f'**`Successfully Banned {member} For {reason}.`**')
+        embed.set_thumbnail(url='https://cdn.dribbble.com/users/344048/screenshots/4134234/bot_icon_dribbble.jpg')
+        await ctx.send(embed=embed)
+
+@client.command()
+@commands.has_permissions(ban_members=True)
+async def unban(ctx, member_id = None):
+    if member_id == None:
+        embed = discord.Embed(title='Full Power', color=0x19dfb8, description=f'**`Please Provide A Member ID To Unban...`**')
+        embed.set_thumbnail(url='https://cdn.dribbble.com/users/344048/screenshots/4134234/bot_icon_dribbble.jpg')
+        await ctx.send(embed=embed)
+    else:
+        await ctx.guild.unban(user=member_id)
+        embed = discord.Embed(title='Full Power', color=0x19dfb8, description=f'**`Successfully Unbanned {member_id}!`**')
+        embed.set_thumbnail(url='https://cdn.dribbble.com/users/344048/screenshots/4134234/bot_icon_dribbble.jpg')
+        await ctx.send(embed=embed)
 
 extensions=['cogs.dm',
             'cogs.avatar'
