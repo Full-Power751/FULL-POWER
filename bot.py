@@ -13,42 +13,6 @@ from discord.ext.commands import bot
 client = commands.Bot (command_prefix = 'f!')
 
 
-@client.command()
-@commands.has_permissions(kick_members=True)
-async def kick(ctx, member: discord.Member, *, reason=None):             
-    await member.kick(reason=reason)
-    embed = discord.Embed(
-
-        description = f"{member} was successfully Kicked.",        
-    )    
-    await ctx.send(embed=embed)
-    
-@kick.error
-async def kick_error(ctx , error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please mention a user to Kick.')
-
-@kick.error
-async def kick_error(ctx , error):
-    if isinstance(error, commands.MissingPermissions):
-        embed = discord.Embed(description=f"You do not have Permission to kick members. ")
-        await ctx.send(embed=embed)
-
-@client.command()
-@commands.has_permissions(ban_members=True)
-async def ban(ctx, member: discord.Member, *, reason=None):             
-    await member.ban(reason=reason)
-    embed = discord.Embed(
-
-        description = f"{member} was successfully Kicked.",
-        
-    )    
-    await ctx.send(embed=embed)
-    
-@kick.error
-async def kick_error(ctx , error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Please mention a user to Ban.')  
 
 @client.event
 async def on_ready():
